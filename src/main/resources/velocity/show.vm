@@ -1,0 +1,67 @@
+<style>
+    .badge {
+        border: 1px solid #00796b;
+        font-family: monospace;
+        padding: 0.25rem;
+        border-radius: 3px;
+        background-color: #a7ffeb;
+    }
+    .message {color: #669}
+    #info {
+        border: 1px solid #ff5722;
+        margin: 1rem;
+        padding: 1rem;
+        background-color: #ffab91;
+    }
+    .hide {display: none;}
+    .item {padding: 0.25 rem; margin: 0.25 rem;}
+</style>
+<h1>Records</h1>
+#if ($current.size() > 0)
+  #foreach ($mapEntry in $current.entrySet())
+   <div class="item">
+     <a href="$mapEntry.value.getUrl()">$mapEntry.value.getUrl()</a>
+     <span class="badge">$mapEntry.value.getCode()</span>
+     <span class="message">$mapEntry.value.getMessage()</span>
+   </div>
+  #end
+#else
+  No records found
+#end
+
+<h1>Append new</h1>
+<div class="hide" id="info">
+</div>
+
+     <textarea id="request" cols="120" rows="5" id="request">
+{
+   url: 'test/test',
+   code: 200,
+   message: 'all right'
+}
+     </textarea><br/>
+     <button onclick="send()" id="submit">Create/Update</button>
+
+<script>
+    function send() {
+        document.getElementById('info').className = "hide";
+        let data = document.getElementById("request");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", '/', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState === XMLHttpRequest.DONE)  {
+                console.log(xhr.responseURL);
+                if (xhr.responseURL !== '/') {
+                    document.location.reload();
+                } else {
+                   let info = document.getElementById('info');
+                   info.innerHTML = xhr.responseText;
+                   info.className = "";
+                }
+            }
+        };
+        xhr.send(data.value);
+    }
+</script>
+
