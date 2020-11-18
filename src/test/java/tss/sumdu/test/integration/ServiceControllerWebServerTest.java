@@ -1,3 +1,5 @@
+package tss.sumdu.test.integration;
+
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.junit.jupiter.api.AfterAll;
@@ -25,7 +27,6 @@ public class ServiceControllerWebServerTest {
                 .body(body)
                 .asEmpty();
         assertEquals(302, response.getStatus());
-        //assertThat(response.getBody()).isEqualTo(usersJson);
     }
 
     @Test

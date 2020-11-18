@@ -3,6 +3,7 @@ package tss.sumdu.controllers;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.javalin.http.Context;
+import tss.sumdu.UrlTesterApp;
 import tss.sumdu.util.Service;
 import tss.sumdu.util.ServiceHolder;
 
@@ -33,8 +34,9 @@ public class ServiceController {
     }
 
     public static void show(Context ctx) {
-        Map<String, ServiceHolder> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
         model.put("current", services);
+        model.put("host", UrlTesterApp.URL);
         ctx.render("/velocity/show.vm", model);
     }
 

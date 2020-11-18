@@ -16,17 +16,13 @@ public class ServiceHolder
 
     public Service fetchVal(String key)
     {
-        if (key.charAt(0) != '/') {
-           key = "/" + key;
-        }
-        key = key.replaceFirst("/+$", "");
-
-        return cache.getIfPresent(key);
+        return cache.getIfPresent(Helpers.normalizeURL(key));
     }
 
     public void putVal(Service val)
     {
-        cache.put(val.getUrl(), val);
+        String key = Helpers.normalizeURL(val.getUrl());
+        cache.put(key, val);
     }
 
     public long size(){

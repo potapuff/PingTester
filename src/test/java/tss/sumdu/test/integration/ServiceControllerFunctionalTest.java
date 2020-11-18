@@ -1,3 +1,5 @@
+package tss.sumdu.test.integration;
+
 import io.javalin.http.Context;
 import org.junit.jupiter.api.Test;
 import tss.sumdu.controllers.ServiceController;

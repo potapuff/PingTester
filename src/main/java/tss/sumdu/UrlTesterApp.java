@@ -10,7 +10,10 @@ public class UrlTesterApp {
     public static Integer PORT = 7000;
     public static String URL = "http://127.0.0.1:" + PORT;
 
-    private final Javalin app = Javalin.create()
+    private final Javalin app = Javalin.create(
+            config -> {
+                config.addStaticFiles("/public");
+            })
             .routes(() -> {
                 get("/", ServiceController::show);
                 post("/", ServiceController::createOrUpdate);

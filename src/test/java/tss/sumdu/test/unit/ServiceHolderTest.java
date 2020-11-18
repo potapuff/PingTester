@@ -1,3 +1,5 @@
+package tss.sumdu.test.unit;
+
 import org.junit.jupiter.api.Test;
 import tss.sumdu.util.Service;
 
@@ -5,14 +7,19 @@ import org.junit.jupiter.api.BeforeEach;
 import tss.sumdu.util.ServiceHolder;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-public class ServiceHolderUnitTest {
+public class ServiceHolderTest {
 
     Service service = null;
     ServiceHolder holder = null;
 
     private Service generateService(String url, Integer code, String message){
-        return  new Service(url, code, message);
+        Service service = mock(Service.class);
+        when(service.getUrl()).thenReturn(url);
+        when(service.getCode()).thenReturn(code);
+        when(service.getMessage()).thenReturn(message);
+        return service;
     }
 
     @BeforeEach
@@ -46,7 +53,7 @@ public class ServiceHolderUnitTest {
     public void testRemoveExtraCapacity(){
         holder.putVal(service);
         for (int i=0; i< ServiceHolder.MAX_CAPACITY+5; i+=1){
-            holder.putVal(new Service("/test_"+i, 404, "text"));
+            holder.putVal(generateService("/test_"+i, 404, "text"));
         }
         assertEquals(holder.size(), ServiceHolder.MAX_CAPACITY);
         assertNull(holder.fetchVal(service.getUrl()));

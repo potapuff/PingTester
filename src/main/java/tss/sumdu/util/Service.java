@@ -18,10 +18,7 @@ public class Service {
 
     private void setUrl(String url){
         try {
-            if (url.charAt(0) != '/') {
-                url = "/" + url;
-            }
-            url = url.replaceFirst("/+$", "");
+            url = Helpers.normalizeURL(url);
             new URL(UrlTesterApp.URL + url);
         }  catch (MalformedURLException e) {
             throw new ValidationError(e);

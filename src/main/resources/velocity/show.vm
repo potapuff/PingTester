@@ -1,63 +1,108 @@
-<style>
-    .badge {
-        border: 1px solid #00796b;
-        font-family: monospace;
-        padding: 0.25rem;
-        border-radius: 3px;
-        background-color: #a7ffeb;
-    }
-    .message {color: #669}
-    #info {
-        border: 1px solid #ff5722;
-        margin: 1rem;
-        padding: 1rem;
-        background-color: #ffab91;
-    }
-    .hide {display: none;}
-    .item {padding: 0.25 rem; margin: 0.25 rem;}
-</style>
-<h1>Records</h1>
-#if ($current.size() > 0)
-  #foreach ($mapEntry in $current.entrySet())
-   <div class="item">
-     <a href="$mapEntry.value.getUrl()">$mapEntry.value.getUrl()</a>
-     <span class="badge">$mapEntry.value.getCode()</span>
-     <span class="message">$mapEntry.value.getMessage()</span>
-   </div>
-  #end
-#else
-  No records found
-#end
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<div class="padded">
+    <div class="container">
+        <h1>Endpoints</h1>
+        #if ($current.size() > 0)
+            #foreach ($mapEntry in $current.entrySet())
+                <div class="row">
+                    <div class="col-6">
+                        <a href="$mapEntry.value.getUrl()">$mapEntry.value.getUrl()</a>
+                    </div>
+                    <div class="col-1">
+                        <span class="badge badge-success">$mapEntry.value.getCode()</span>
+                    </div>
+                    <div class="col-5">
+                        <span class="message">$mapEntry.value.getMessage()</span>
+                    </div>
 
-<h1>Append new</h1>
-<div class="hide" id="info">
+                </div>
+            #end
+        #else
+            No records found
+        #end
+
+    </div>
 </div>
-
-     <textarea id="request" cols="120" rows="5" id="request">
+<div class="padded">
+    <div class="container">
+        <h1>Append new</h1>
+        <div class="row">
+            <div class="alert alert-danger" id="info" style="display:none" role="alert"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="font-family: monospace">
+                <p></p>
+                curl -X POST -H "Content-Type: text/plain" --data "<br/>
+                <textarea id="request" style="width:100%; border:0;" rows="5">
 {
    url: 'test/test',
    code: 200,
    message: 'all right'
-}
-     </textarea><br/>
-     <button onclick="send()" id="submit">Create/Update</button>
+} </textarea>" $host <br/>
+
+            </div>
+            <div class="col-md-6 lb">
+
+                <form>
+                    <div class="form-group">
+                        <label for="i1">Endpoint:</label><br/>
+                        <input type="text" name="url" onkeyup="update()" id="i1" value="test/test"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="i2">Code:</label><br/>
+                        <input type="number" max="999" min="100" name="code" onkeyup="update()" id="i2" value="200"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="i3">Message:</label><br/>
+                        <input type="text" name="message" onkeyup="update()" id="i3" value="all right"/>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button onclick="send()" id="submit" class="btn btn-primary">Create/Update</button>
+            </div>
+            <div class="col-md-6 lb">
+                <button onclick="update(); send()" class="btn btn-primary">Create/Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <script>
+
+
+    function update() {
+        let text =
+                `{
+    url: '${$("#i1").val()}',
+    code: ${$("#i2").val()},
+    message: '${$("#i3").val()}'
+}`;
+        document.getElementById('request').value = text;
+    }
+
     function send() {
-        document.getElementById('info').className = "hide";
+        $("#info").hide();
         let data = document.getElementById("request");
         let xhr = new XMLHttpRequest();
         xhr.open("POST", '/', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onreadystatechange = function () {
-            if(xhr.readyState === XMLHttpRequest.DONE)  {
-                console.log(xhr.responseURL);
-                if (xhr.responseURL !== '/') {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.responseURL !== window.location.href) {
                     document.location.reload();
                 } else {
-                   let info = document.getElementById('info');
-                   info.innerHTML = xhr.responseText;
-                   info.className = "";
+                    let info = document.getElementById('info');
+                    let answer = document.createElement('div');
+                    answer.innerHTML = xhr.responseText;
+                    let message =  answer.getElementsByClassName('message');
+                    info.innerHTML = message.length > 0 ? message[0].innerHTML : xhr.responseText;
+                    $(info).show();
                 }
             }
         };
@@ -65,3 +110,4 @@
     }
 </script>
 
+#end

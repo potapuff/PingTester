@@ -1,3 +1,5 @@
+package tss.sumdu.test.unit;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import tss.sumdu.util.Service;

@@ -1,3 +1,5 @@
+package tss.sumdu.test.integration;
+
 import static io.github.bonigarcia.wdm.DriverManagerType.CHROME;
 
 import org.openqa.selenium.WebDriver;
@@ -20,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ServiceControllerUIFunctionalTest {
 
+    //Debug mode
+    static final boolean DEBUG = true;
     private static final UrlTesterApp app = new UrlTesterApp();
     private static WebDriver driver;
 
@@ -28,7 +32,9 @@ public class ServiceControllerUIFunctionalTest {
         app.start(UrlTesterApp.PORT);
         WebDriverManager.getInstance(CHROME).setup();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        if (! DEBUG) {
+            options.addArguments("--headless");
+        }
         options.addArguments("--disable-gpu");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -36,10 +42,11 @@ public class ServiceControllerUIFunctionalTest {
 
     @Test
     public void testCreateValidService() {
+        String defaultURL = "/test/test";
         driver.get(UrlTesterApp.URL+'/');
         driver.findElement(By.id("submit")).click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        assertTrue(driver.getPageSource().contains("Records"));
+        assertTrue(driver.getPageSource().contains(defaultURL));
     }
 
     @Test
@@ -59,7 +66,9 @@ public class ServiceControllerUIFunctionalTest {
     @AfterAll
     static void  stopServer(){
         app.stop();
-        driver.quit();
+        if (!DEBUG) {
+            driver.quit();
+        }
     }
 
 }
