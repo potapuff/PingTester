@@ -1,54 +1,23 @@
-package tss.sumdu.test.integration;
+package tss.sumdu.test.ui.common;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tss.sumdu.UrlTesterApp;
 import tss.sumdu.test.utils.TestHelper;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static io.github.bonigarcia.wdm.DriverManagerType.CHROME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class ServiceControllerUIFunctionalTest {
-
-    // Debug mode (don't close browser after test finish)
-    static final boolean DEBUG = false;
-    private static final UrlTesterApp app = new UrlTesterApp();
-    private static WebDriver driver;
-
-    @BeforeAll
-    static void initServer() {
-        app.start(UrlTesterApp.PORT);
-        WebDriverManager.getInstance(CHROME).setup();
-        ChromeOptions options = new ChromeOptions();
-        if (!DEBUG) {
-            options.addArguments("--headless");
-        }
-        options.addArguments("--disable-gpu");
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    }
-
-    @AfterAll
-    static void stopServer() {
-        app.stop();
-        if (!DEBUG) {
-            driver.quit();
-        }
-    }
+public abstract class ServiceControllerUIFunctionalTest extends CommonUITest {
 
     @Test
     public void testCreateValidService() {
@@ -58,7 +27,7 @@ public class ServiceControllerUIFunctionalTest {
         Wait<WebDriver> wait = new WebDriverWait(driver, 10);
         ExpectedCondition<Boolean> expectation = null;
         try {
-            expectation = driver -> (driver.getPageSource().contains(defaultURL));
+            expectation = driver -> (Objects.requireNonNull(driver).getPageSource().contains(defaultURL));
         } catch (NullPointerException ex) {
             assertEquals("Element found", "Code throw error");
         }

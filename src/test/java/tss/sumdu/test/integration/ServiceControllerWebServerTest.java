@@ -14,16 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SuppressWarnings("rawtypes")
 public class ServiceControllerWebServerTest {
 
-    private static final UrlTesterApp app = new UrlTesterApp();
+    private static UrlTesterApp app = null;
 
     @BeforeAll
     static void initServer() {
+        app = new UrlTesterApp();
         app.start(UrlTesterApp.PORT);
     }
 
     @AfterAll
     static void stopServer() {
         app.stop();
+        app = null;
     }
 
     @Test
