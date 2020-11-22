@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HelpersTest {
 
     @Test
-    public void testUrlNormalization(){
+    public void testUrlNormalization() {
         String url = "/test/tests";
         assertEquals(url, Helpers.normalizeURL("/test/tests"));
         assertEquals(url, Helpers.normalizeURL("/test/tests/"));
-        assertEquals(url, Helpers.normalizeURL( "test/tests"));
-        assertEquals(url, Helpers.normalizeURL( "test/tests/"));
+        assertEquals(url, Helpers.normalizeURL("test/tests"));
+        assertEquals(url, Helpers.normalizeURL("test/tests/"));
     }
 
 }

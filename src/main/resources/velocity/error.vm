@@ -1,8 +1,8 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
 <div class="container message">
-  <h1>$code</h1>
-  <p>$message</p>
-  <a href="/">back and try again</a>
+    <h1>$code</h1>
+    <p>$message</p>
+    <a href="/">back and try again</a>
 </div>
 #end

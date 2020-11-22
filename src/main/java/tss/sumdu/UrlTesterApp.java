@@ -6,16 +6,15 @@ import tss.sumdu.controllers.ViewHelper;
 import tss.sumdu.filter.CSRFFilter;
 import tss.sumdu.util.CheckTokenException;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.post;
 
 public class UrlTesterApp {
-    public static Integer PORT = 7000;
-    public static String URL = "http://127.0.0.1:" + PORT;
+    public static final Integer PORT = 7000;
+    public static final String URL = "http://127.0.0.1:" + PORT;
 
     private final Javalin app = Javalin.create(
-            config -> {
-                config.addStaticFiles("/public");
-            })
+            config -> config.addStaticFiles("/public"))
             .before("/", CSRFFilter::check)
             .before("/", CSRFFilter::generate)
             .routes(() -> {
@@ -26,16 +25,16 @@ public class UrlTesterApp {
             })
             .exception(CheckTokenException.class, ViewHelper::noAuth);
 
+    public static void main(String[] args) {
+        new UrlTesterApp().start(UrlTesterApp.PORT);
+    }
+
     public void start(int port) {
         this.app.start(port);
     }
 
     public void stop() {
         this.app.stop();
-    }
-
-    public static void main(String[] args) {
-        new UrlTesterApp().start(UrlTesterApp.PORT);
     }
 
 }

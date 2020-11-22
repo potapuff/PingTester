@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class ViewHelper {
 
-    public static void notFound(Context ctx){
-       userError(ctx, 404, "Service or path not found");
+    public static void notFound(Context ctx) {
+        userError(ctx, 404, "Service or path not found");
     }
 
-    public static void userError(Context ctx, Integer code, String message){
+    public static void userError(Context ctx, Integer code, String message) {
         Map<String, String> model = new HashMap<>();
         model.put("code", code.toString());
         model.put("message", message);
@@ -19,7 +19,7 @@ public class ViewHelper {
         ctx.render("/velocity/error.vm", model);
     }
 
-    public static void noAuth(Exception _ex, Context ctx){
+    public static void noAuth(Exception _ex, Context ctx) {
         userError(ctx, 403, "Fail to check token");
     }
 

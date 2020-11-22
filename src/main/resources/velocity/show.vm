@@ -31,7 +31,7 @@
             <div class="alert alert-danger" id="info" style="display:none; width:100%" role="alert"></div>
         </div>
         <div class="row">
-            <div class="col-md-6" style="font-family: monospace; overflow: clip; overflow-wrap: break-word;">
+            <div class="col-md-6" style="font-family: monospace; overflow-wrap: break-word;">
                 <p></p>
                 curl -X POST -H "Content-Type: text/plain" <br/> -H "X-CSRF-TOKEN: $csrf" <br/> --data "<br/>
                 <textarea id="request" style="width:100%; border:0;" rows="5">
@@ -77,20 +77,18 @@
 
 
     function update() {
-        let text =
-                `{
+        document.getElementById('request').value = `{
     url: '${$("#i1").val()}',
     code: ${$("#i2").val()},
     message: '${$("#i3").val()}'
 }`;
-        document.getElementById('request').value = text;
     }
 
     function send() {
         $("#info").hide();
         let data = document.getElementById("request");
         let token = document.getElementsByName("csrf-token");
-        token = (token.length > 0)  ?   token[0].content : undefined;
+        token = (token.length > 0) ? token[0].content : undefined;
         let xhr = new XMLHttpRequest();
         xhr.open("POST", '/', true);
         xhr.setRequestHeader('X-CSRF-TOKEN', token);
@@ -103,7 +101,7 @@
                     let info = document.getElementById('info');
                     let answer = document.createElement('div');
                     answer.innerHTML = xhr.responseText;
-                    let message =  answer.getElementsByClassName('message');
+                    let message = answer.getElementsByClassName('message');
                     info.innerHTML = message.length > 0 ? message[0].innerHTML : xhr.responseText;
                     $(info).show();
                 }

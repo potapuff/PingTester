@@ -9,11 +9,11 @@ import static org.mockito.Mockito.*;
 
 public class ServiceControllerFunctionalTest {
 
-    Context ctx = mock(Context.class);
+    final Context ctx = mock(Context.class);
 
     @Test
     public void testCreateValidService() {
-        String newService= "/test/test";
+        String newService = "/test/test";
         String body = TestHelper.jsonGenerator(newService, "200", "test");
         when(ctx.body()).thenReturn(body);
         ServiceController.createOrUpdate(ctx);
@@ -22,7 +22,7 @@ public class ServiceControllerFunctionalTest {
 
     @Test
     public void testCreateMalformedJson() {
-        String body = TestHelper.jsonGenerator("/test/test", "400", "test").replace('{','[');
+        String body = TestHelper.jsonGenerator("/test/test", "400", "test").replace('{', '[');
         when(ctx.body()).thenReturn(body);
         ServiceController.createOrUpdate(ctx);
         verify(ctx).status(400);

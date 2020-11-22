@@ -1,20 +1,20 @@
 package tss.sumdu.test.unit;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tss.sumdu.util.Service;
-
-import org.junit.jupiter.api.BeforeEach;
 import tss.sumdu.util.ServiceHolder;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ServiceHolderTest {
 
     Service service = null;
     ServiceHolder holder = null;
 
-    private Service generateService(String url, Integer code, String message){
+    private Service generateService(String url, Integer code, String message) {
         Service service = mock(Service.class);
         when(service.getUrl()).thenReturn(url);
         when(service.getCode()).thenReturn(code);
@@ -23,17 +23,17 @@ public class ServiceHolderTest {
     }
 
     @BeforeEach
-    public void createService(){
+    public void createService() {
         service = generateService("/test", 200, "text");
     }
 
     @BeforeEach
-    public void initHolder(){
+    public void initHolder() {
         holder = new ServiceHolder();
     }
 
     @Test
-    public void testInsertOne(){
+    public void testInsertOne() {
         assertEquals(holder.size(), 0);
         holder.putVal(service);
         assertEquals(holder.size(), 1);
@@ -41,7 +41,8 @@ public class ServiceHolderTest {
         assertNull(holder.fetchVal("no-one"));
     }
 
-    @Test void testReplaceOld(){
+    @Test
+    void testReplaceOld() {
         assertEquals(holder.size(), 0);
         holder.putVal(service);
         assertEquals(holder.size(), 1);
@@ -50,22 +51,17 @@ public class ServiceHolderTest {
     }
 
     @Test
-    public void testRemoveExtraCapacity(){
+    public void testRemoveExtraCapacity() {
         holder.putVal(service);
-        for (int i=0; i< ServiceHolder.MAX_CAPACITY+5; i+=1){
-            holder.putVal(generateService("/test_"+i, 404, "text"));
+        for (int i = 0; i < ServiceHolder.MAX_CAPACITY + 5; i += 1) {
+            holder.putVal(generateService("/test_" + i, 404, "text"));
         }
         assertEquals(holder.size(), ServiceHolder.MAX_CAPACITY);
         assertNull(holder.fetchVal(service.getUrl()));
     }
 
     @Test
-    public void testIgnoreCaseSearch(){
-
-    }
-
-    @Test
-    public void testIgnoreSlashes(){
+    public void testIgnoreSlashes() {
         String variant1 = "/test";
         String variant2 = "test";
         String variant3 = "test/";
