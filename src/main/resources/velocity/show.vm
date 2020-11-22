@@ -28,12 +28,12 @@
     <div class="container">
         <h1>Append new</h1>
         <div class="row">
-            <div class="alert alert-danger" id="info" style="display:none" role="alert"></div>
+            <div class="alert alert-danger" id="info" style="display:none; width:100%" role="alert"></div>
         </div>
         <div class="row">
-            <div class="col-md-6" style="font-family: monospace">
+            <div class="col-md-6" style="font-family: monospace; overflow: clip; overflow-wrap: break-word;">
                 <p></p>
-                curl -X POST -H "Content-Type: text/plain" --data "<br/>
+                curl -X POST -H "Content-Type: text/plain" <br/> -H "X-CSRF-TOKEN: $csrf" <br/> --data "<br/>
                 <textarea id="request" style="width:100%; border:0;" rows="5">
 {
    url: 'test/test',
@@ -89,8 +89,11 @@
     function send() {
         $("#info").hide();
         let data = document.getElementById("request");
+        let token = document.getElementsByName("csrf-token");
+        token = (token.length > 0)  ?   token[0].content : undefined;
         let xhr = new XMLHttpRequest();
         xhr.open("POST", '/', true);
+        xhr.setRequestHeader('X-CSRF-TOKEN', token);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {

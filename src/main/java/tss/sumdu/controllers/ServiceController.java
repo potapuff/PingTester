@@ -37,6 +37,7 @@ public class ServiceController {
         Map<String, Object> model = new HashMap<>();
         model.put("current", services);
         model.put("host", UrlTesterApp.URL);
+        model.put("csrf", ctx.sessionAttribute("csrf"));
         ctx.render("/velocity/show.vm", model);
     }
 

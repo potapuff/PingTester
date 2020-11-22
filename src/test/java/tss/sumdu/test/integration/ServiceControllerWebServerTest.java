@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import tss.sumdu.UrlTesterApp;
 import tss.sumdu.test.utils.TestHelper;
+import tss.sumdu.util.CSRFTokenService;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("rawtypes")
@@ -24,6 +26,7 @@ public class ServiceControllerWebServerTest {
         String body = TestHelper.jsonGenerator("/test/test", "200", "test");
         HttpResponse response = Unirest.post(UrlTesterApp.URL+"/")
                 .header("Content-Type", "application/json")
+                .header("X-CSRF-TOKEN", CSRFTokenService.generateToken(CSRFTokenService.NO_AUTH))
                 .body(body)
                 .asEmpty();
         assertEquals(302, response.getStatus());
@@ -34,6 +37,7 @@ public class ServiceControllerWebServerTest {
         String body = TestHelper.jsonGenerator("/test/test", "400", "test").replace('{','[');
         HttpResponse response = Unirest.post(UrlTesterApp.URL+"/")
                 .header("Content-Type", "application/json")
+                .header("X-CSRF-TOKEN", CSRFTokenService.generateToken(CSRFTokenService.NO_AUTH))
                 .body(body).asEmpty();
         assertEquals(400, response.getStatus());
     }

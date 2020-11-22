@@ -1,6 +1,7 @@
 package tss.sumdu.test.integration;
 
 import static io.github.bonigarcia.wdm.DriverManagerType.CHROME;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,18 +13,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import tss.sumdu.UrlTesterApp;
 import tss.sumdu.test.utils.TestHelper;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 public class ServiceControllerUIFunctionalTest {
 
-    //Debug mode
-    static final boolean DEBUG = true;
+    // Debug mode (don't close browser after test finish)
+    static final boolean DEBUG = false;
     private static final UrlTesterApp app = new UrlTesterApp();
     private static WebDriver driver;
 
@@ -45,8 +47,17 @@ public class ServiceControllerUIFunctionalTest {
         String defaultURL = "/test/test";
         driver.get(UrlTesterApp.URL+'/');
         driver.findElement(By.id("submit")).click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        assertTrue(driver.getPageSource().contains(defaultURL));
+        Wait<WebDriver> wait = new WebDriverWait(driver,10);
+        ExpectedCondition<Boolean> expectation = new
+                ExpectedCondition<Boolean>()
+                {
+                    public Boolean apply(WebDriver driver)
+                    {
+                        return (driver.getPageSource().contains(defaultURL));
+                    }
+                };
+        wait.until(expectation);
+
     }
 
     @Test

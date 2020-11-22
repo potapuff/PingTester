@@ -19,6 +19,9 @@ public class ViewHelper {
         ctx.render("/velocity/error.vm", model);
     }
 
+    public static void noAuth(Exception _ex, Context ctx){
+        userError(ctx, 403, "Fail to check token");
+    }
 
 
 }
