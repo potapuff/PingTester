@@ -24,7 +24,6 @@ public abstract class CommonUITest {
 
     @BeforeAll
     static void startServer() {
-        System.out.println("Starting!");
         app = new UrlTesterApp();
         app.start(UrlTesterApp.PORT);
     }

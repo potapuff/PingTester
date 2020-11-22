@@ -2,18 +2,13 @@ package tss.sumdu.test.ui.common;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import tss.sumdu.UrlTesterApp;
+import tss.sumdu.test.utils.SeleniumHelper;
 import tss.sumdu.test.utils.TestHelper;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -24,15 +19,7 @@ public abstract class ServiceControllerUIFunctionalTest extends CommonUITest {
         String defaultURL = "/test/test";
         driver.get(UrlTesterApp.URL + '/');
         driver.findElement(By.id("submit")).click();
-        Wait<WebDriver> wait = new WebDriverWait(driver, 10);
-        ExpectedCondition<Boolean> expectation = null;
-        try {
-            expectation = driver -> (Objects.requireNonNull(driver).getPageSource().contains(defaultURL));
-        } catch (NullPointerException ex) {
-            assertEquals("Element found", "Code throw error");
-        }
-        wait.until(expectation);
-
+        SeleniumHelper.waitText(driver, defaultURL);
     }
 
     @Test
