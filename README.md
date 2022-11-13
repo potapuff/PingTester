@@ -1,8 +1,8 @@
 # PingTester
-Educational app, part of  Sumy State University  Technical Solution Support course. 
+Educational app, part of Sumy State University Technical Solution Support course.
 
 Приложение может быть использовано в курсе Technical Solution Support для тестирования активных проверок.
-Для регистрации своего endpoint отправьте POST запрос на https://ping.tss2020.site с содержимым:
+Для регистрации своего endpoint отправьте POST запрос на http://127.0.0.1:7000 с содержимым:
 
     {
         url: 'endpoint-path',
@@ -67,7 +67,6 @@ JUnit - фремворк для тестирования.
             <scope>test</scope>
         </dependency>
 
-`unirest` - библиотека для отправки запросов (здравствуйте, активные проверки). 
         
 Пример - `tss.sumdu.test.integration.ServiceControllerWebServerTest`
 
