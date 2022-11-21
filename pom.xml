@@ -62,6 +62,16 @@
             <artifactId>unirest-java</artifactId>
             <version>[3.13.11,)</version>
         </dependency>
+
+        <!-- UI testing -->
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>[5.25.0,)</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     <build>
