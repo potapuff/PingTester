@@ -1,4 +1,4 @@
-package tss.sumdu.test.ui;
+package tss.sumdu.test.ui_with_po;
 
 import com.codeborne.selenide.Configuration;
 import org.testng.annotations.AfterTest;
