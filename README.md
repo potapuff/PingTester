@@ -135,3 +135,32 @@ front-end, мережа, веб-сервер, програма, база дан�
 * https://habr.com/en/company/otus/blog/494106/
 * https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/
 * https://www.browserstack.com/guide/page-object-model-in-selenium
+
+# E2E with Cucumber
+
+Для довгих сценарії корисно розділити осіб, хто буде писати сценарії та їх реалізацію. При цьому хочеться, щоб
+реалізація була якомога простою. Тут доцільним буде застосування Behavior Driven тестування, коли ми описуемо бажану
+поведінку. Одним із найбільш розповсюджених інструментів є Cucumber.
+
+`pom.xml`
+
+        <!-- Behavior driving testing -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>[7.9.0,)</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>[7.9.0,)</version>
+        </dependency>
+
+Поведінка описується мовою [Gherkin](https://cucumber.io/docs/gherkin/reference/) приклад
+`src/test/resources/tss/sumdu/test/e2e/ServiceController.feature` . Мова дуже проста і наближена до натуральної.
+
+Опис кроків наведено у `tss.sumdu.test.e2e.steps.ServiceController` (і'мя класу опису і вайлу фіч - збігається).
+
+Для запуску тестів необхідно Runner - `tss.sumdu.test.e2e.TestRunner`.
+
+
