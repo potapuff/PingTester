@@ -18,7 +18,6 @@ Scenario scenario;
 
 @Before
 public void configureSelenide() {
-    System.out.println("configureSelenide");
     Configuration.browser = "chrome";
     Configuration.baseUrl = UrlTesterApp.URL;
     Configuration.holdBrowserOpen = true;
